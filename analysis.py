@@ -8,9 +8,16 @@
 #
 #	PJL 2/3/2015
 
-#import numpy as np
+# TODO:
+# Add option to combine phone calls within days
+
 import csv
 import datetime
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+import pylab
+
 
 def main():
 
@@ -26,7 +33,7 @@ def main():
 	# analysis
 
 	## distribution of call lengths
-
+	callTimesHist(call_times)
 
 	## call lengths through time
 
@@ -34,6 +41,9 @@ def main():
 
 	## call lengths by previous call length
 
+	## make figures visible
+	plt.show()
+	
 def csvToList():
 	# read csv into list
 
@@ -54,7 +64,7 @@ def getCallTimes(my_list):
 			m = float(my_list[i][2])
 			s = float(my_list[i][3])
 			call_times.append(h*60.0 + m + s/60.0)
-	return call_times
+	return np.array(call_times, float)
 
 def getDates(my_list):
 	# return list of date objects, one for each phone call
@@ -104,5 +114,23 @@ def countDuplicateDays(dates):
 				duplicates += 1
 
 	return duplicates
+
+def callTimesHist(call_times):
+	M = call_times.max()
+
+	rangeMin = 0
+	rangeMax = 100*math.ceil(M/100)
+
+	bins = math.ceil((rangeMax-rangeMin)/10.0)
+
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	ax.set_title('Histogram of Call Times')
+	ax.set_xlabel('Call Time (min)')
+	ax.set_ylabel('Count')
+
+	ax.hist(call_times,bins=bins,range=(rangeMin,rangeMax))
+	
+
 
 main()
