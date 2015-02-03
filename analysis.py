@@ -1,4 +1,11 @@
 # Script for preprocessing and analysis of PhoneTime.csv
+# Preprocessing: collect dates and call times
+# Analysis: 
+#	Call length distribution
+#	Call length over time
+#	Call length by day of week
+#	Call length by previous call length
+#
 #	PJL 2/3/2015
 import numpy as np
 import csv
@@ -11,15 +18,16 @@ def main():
 	call_times = getCallTimes(my_list)
 	dates = getDates(my_list)
 	print dates
-# analysis
+	
+	# analysis
 
-## distribution of call lengths
+	## distribution of call lengths
 
-## call lengths through time
+	## call lengths through time
 
-## call lengths by day of week
+	## call lengths by day of week
 
-## call lengths by previous call length
+	## call lengths by previous call length
 
 def csvToList():
 	# read csv into list
@@ -46,7 +54,7 @@ def getCallTimes(my_list):
 def getDates(my_list):
 	# return list of date objects, one for each phone call
 	# see https://docs.python.org/2/library/datetime.html
-	
+
 	dates = []
 	for i in range(len(my_list)):
 		if i == 0:
