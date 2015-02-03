@@ -41,6 +41,7 @@ def main():
 	## call lengths by day of week
 
 	## call lengths by previous call length
+	callTimesByPreviousTime(call_times)
 
 	## make figures visible
 	plt.show()
@@ -146,6 +147,16 @@ def callTimesThroughTime(dates,call_times):
 
 	ax.plot(ordinals,call_times,'ko')
 
+def callTimesByPreviousTime(call_times):
+	# Scatter plot of call time by previous call time
+
+	fig = plt.figure()
+	ax = fig.add_subplot(111,aspect='equal')
+	ax.set_title("Back-to-Back Call Times")
+	ax.set_xlabel("Call Time i (min)")
+	ax.set_ylabel("Call Time i+1 (min)")
+
+	ax.plot(call_times[:-1],call_times[1:],'ko')
 
 
 main()
