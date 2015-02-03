@@ -7,7 +7,8 @@
 #	Call length by previous call length
 #
 #	PJL 2/3/2015
-import numpy as np
+
+#import numpy as np
 import csv
 import datetime
 
@@ -17,11 +18,15 @@ def main():
 	my_list = csvToList()
 	call_times = getCallTimes(my_list)
 	dates = getDates(my_list)
-	print dates
 	
+	# ... may want additional step to collect calls on same day
+	print "Calls have not been combined within days"
+	print "There are " + str(countDuplicateDays(dates)) + " days out of " + str(countDays(dates)) + " with multiple calls"
+
 	# analysis
 
 	## distribution of call lengths
+
 
 	## call lengths through time
 
@@ -68,5 +73,36 @@ def getDates(my_list):
 			dates.append(datetime.date(year, month, day))
 
 	return dates
+
+def getOrdinals(dates):
+	# get ordinals for each date
+
+	ordinals = []
+	for d in dates:
+		ordinals.append(d.toordinal())
+	return ordinals
+
+def countDays(dates):
+	# Count number of unique days
+
+	ordinals = getOrdinals(dates)
+	return len(set(ordinals))
+
+def countDuplicateDays(dates):
+	# Count number of days with multiple calls
+	
+	ordinals = getOrdinals(dates)
+	ordinals.sort()
+
+	duplicates = 0
+	for i in range(1,len(ordinals)):
+		if i > 1:
+			if ordinals[i] == ordinals[i-1] and ordinals[i] != ordinals[i-2]:
+				duplicates += 1
+		elif i == 1:
+			if ordinals[i] == ordinals[i-1]:
+				duplicates += 1
+
+	return duplicates
 
 main()
