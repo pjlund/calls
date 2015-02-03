@@ -36,6 +36,7 @@ def main():
 	callTimesHist(call_times)
 
 	## call lengths through time
+	callTimesThroughTime(dates,call_times)
 
 	## call lengths by day of week
 
@@ -43,7 +44,7 @@ def main():
 
 	## make figures visible
 	plt.show()
-	
+
 def csvToList():
 	# read csv into list
 
@@ -116,11 +117,11 @@ def countDuplicateDays(dates):
 	return duplicates
 
 def callTimesHist(call_times):
-	M = call_times.max()
+	# Plot histogram of call times in 10 minute bins
 
+	M = call_times.max()
 	rangeMin = 0
 	rangeMax = 100*math.ceil(M/100)
-
 	bins = math.ceil((rangeMax-rangeMin)/10.0)
 
 	fig = plt.figure()
@@ -131,6 +132,20 @@ def callTimesHist(call_times):
 
 	ax.hist(call_times,bins=bins,range=(rangeMin,rangeMax))
 	
+def callTimesThroughTime(dates,call_times):
+	# Plot call times over time
+	ordinals = getOrdinals(dates)
+
+	assert len(ordinals) == len(call_times)
+
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	ax.set_title("History of Call Times")
+	ax.set_xlabel("Time (Date Ordinal)")
+	ax.set_ylabel("Call Time (min)")
+
+	ax.plot(ordinals,call_times,'ko')
+
 
 
 main()
